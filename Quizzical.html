@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khoảng Cách Không Tưởng - Quizzical</title>
+    <style>
+        :root {
+            --mystic-purple: #6a1b9a;
+            --electric-cyan: #00e5ff;
+            --silver-light: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2e003e, #6a1b9a, #006064);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 24px;
+            max-width: 1200px;
+            width: 95%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(0, 229, 255, 0.1);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Chữ nền "BEYOND" */
+        .profile-container::before {
+            content: "BEYOND";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 110px;
+            font-weight: 900;
+            color: rgba(0, 229, 255, 0.05);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .profile-image-section {
+            flex: 1.2;
+            min-width: 45%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .profile-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 2px solid var(--electric-cyan);
+        }
+
+        .profile-content {
+            flex: 1.5;
+            padding: 60px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--electric-cyan);
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 0;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            color: var(--silver-light);
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--electric-cyan);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .alias {
+            font-style: italic;
+            color: #b39ddb;
+            margin-bottom: 35px;
+            display: block;
+            font-size: 1.15rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid var(--electric-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 229, 255, 0.1);
+            border-left-color: white;
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--electric-cyan);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .record-box {
+            background: rgba(106, 27, 154, 0.2);
+            border: 2px dashed var(--electric-cyan);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .record-box h3 {
+            margin-top: 0;
+            color: var(--electric-cyan);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-box p {
+            font-size: 1.15rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            align-self: flex-start;
+            margin-top: 35px;
+            padding: 14px 35px;
+            background: var(--electric-cyan);
+            color: #2e003e;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            text-transform: uppercase;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--electric-cyan);
+            background: white;
+            color: var(--mystic-purple);
+        }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; max-width: 600px; }
+            .profile-image-section { height: 400px; padding: 20px; }
+            .profile-content { padding: 40px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-image-section">
+            <img src="10.4.jpg" alt="Quizzical - The Horse of Distant Finish">
+        </div>
+
+        <div class="profile-content">
+            <h1>Quizzical</h1>
+            <div class="sub-title">The Greatest Winning Margin in History</div>
+            
+            <span class="alias">"Kẻ độc hành tại vạch đích"</span>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Khoảng cách thắng</label>
+                    <span>>200 độ dài (Lengths)</span>
+                </div>
+                <div class="stat-item">
+                    <label>Sự kiện</label>
+                    <span>Oakley Hunter Chase</span>
+                </div>
+                <div class="stat-item">
+                    <label>Năm kỷ lục</label>
+                    <span>1811</span>
+                </div>
+                <div class="stat-item">
+                    <label>Trạng thái</label>
+                    <span>Kỷ lục Thế giới</span>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Vào năm 1811, tại giải Oakley Hunter Chase, Quizzical đã tạo nên một cú sốc điện ảnh khi cán đích trước đối thủ gần nhất một khoảng cách xa đến mức không tưởng: hơn 200 độ dài thân ngựa.</p>
+            </div>
+
+            <div class="record-box">
+                <h3>⚡ Một mình một cõi</h3>
+                <p><strong>Thực tế:</strong> Trong khi các đối thủ khác vẫn còn đang chật vật ở nửa sau đường đua, Quizzical đã thong dong về đích.</p>
+                <p>Khoảng cách này lớn đến mức khán giả tại thời điểm đó đã nghĩ rằng các con ngựa khác đã bỏ cuộc hoặc gặp sự cố, nhưng thực tế chỉ là Quizzical quá nhanh và quá vượt trội.</p>
+            </div>
+
+            <a href="musume.html" class="btn-back">Về Trang CHỦ</a>
+        </div>
+    </div>
+
+</body>
+</html>

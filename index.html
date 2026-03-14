@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Con Ngựa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+       /* Áp dụng cho toàn bộ trang web */
+html {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' style='font-size:24px'><text y='50%'>🐴</text></svg>"), auto;
+}
+
+/* Hiệu ứng khi di chuột vào các nút bấm hoặc link */
+a, button, select, .card {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' style='font-size:24px'><text y='50%'>🏇</text></svg>"), pointer;
+}
+.horseshoe-trail {
+    position: fixed;
+    pointer-events: none; /* Không làm gián đoạn việc click chuột */
+    z-index: 9999;
+    font-size: 20px;
+    animation: fadeAndMove 1s linear forwards;
+    user-select: none;
+}
+
+@keyframes fadeAndMove {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(var(--r));
+        opacity: 0;
+    }
+}
+       
+        :root {
+            --primary-color: #c9a050; 
+            --secondary-color: #1a1a1a; 
+            --bg-light: #f9f9f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --transition: all 0.3s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 80px 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--primary-color); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1599411931814-c15555d4911d?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-align: center;
+            padding: 150px 0 100px 0;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 60px;
+            color: #ddd;
+            letter-spacing: 2px;
+        }
+
+        /* Card Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .card h3 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.5rem; }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Horse Records Grid */
+        .horse-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .horse-item {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .horse-item:hover { transform: translateY(-10px); }
+
+        .horse-info { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .horse-info h4 { 
+            color: var(--secondary-color); 
+            font-size: 1.4rem; 
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 5px;
+            align-self: flex-start;
+        }
+        
+        .record-tag {
+            display: block;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Nút xem chi tiết */
+        .btn-detail {
+            display: inline-block;
+            margin-top: auto;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            transition: var(--transition);
+            width: fit-content;
+        }
+
+        .btn-detail:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Vote & Contact */
+        .bg-light { background: var(--bg-light); }
+        .vote-form {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .contact { background: var(--secondary-color); color: #fff; text-align: center; }
+        footer { background: #111; color: #666; text-align: center; padding: 40px 0; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; letter-spacing: 5px; }
+            .section-title { font-size: 2.2rem; }
+        }
+    </style>
+    
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">MUSU<span>ME🐴</span></div>
+        <ul class="nav-links">
+            <li><a href="#trang-chu">Trang chủ</a></li>
+            <li><a href="#giai-dau">Giải đấu</a></li> 
+            <li><a href="#ky-luc">Kỷ lục</a></li>
+            <li><a href="#binh-chon">Bình chọn</a></li>
+            <li><a href="#lien-he">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <section id="trang-chu" class="hero">
+        <div class="container hero-content">
+            <h1>Giới thiệu</h1>
+            <h2>"Bản lĩnh dặm trường, mã đáo thành công"</h2>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>Ngựa đua là gì?</h3>
+                    <p>Ngựa đua là những giống ngựa được tuyển chọn khắt khe, sở hữu cơ bắp mạnh mẽ và khả năng bứt tốc tuyệt vời.</p>
+                </div>
+                <div class="card">
+                    <h3>Chiều dài lịch sử</h3>
+                    <p>Từ thế kỷ 12 tại Anh Quốc, đua ngựa đã được mệnh danh là "Môn thể thao của các vị vua".</p>
+                </div>
+                <div class="card">
+                    <h3>Đường đua phổ biến</h3>
+                    <p>Bao gồm đường đua bằng, vượt rào trên các bề mặt đa dạng như cỏ (Turf) hoặc đất cát (Dirt).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="giai-dau" class="hero">
+        <div class="container hero-content">
+            <h1>Những giải đấu danh giá</h1>
+            <div class="content-grid">
+    <div id="giai-dau" style="display: contents;"> 
+        <div class="card" style="border-left: 4px solid var(--primary-color);">
+            <h3>🏆 Triple Crown</h3>
+            <p>Hệ thống giải danh giá nhất tại Mỹ bao gồm: Kentucky Derby, Preakness Stakes và Belmont Stakes.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--primary-color);">
+            <h3>🏆 Dubai World Cup</h3>
+            <p>Giải đua xa hoa bậc nhất hành tinh với tổng giá trị giải thưởng lên đến hàng chục triệu đô la mỗi năm.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--primary-color);">
+            <h3>🏆 Royal Ascot</h3>
+            <p>Giải đua ngựa hoàng gia Anh với lịch sử hơn 300 năm, nơi quy tụ những chiến mã và tầng lớp thượng lưu thế giới.</p>
+        </div>
+    </div>
+</div>
+            
+
+    </section>
+
+    <section id="ky-luc" class="section">
+        <div class="container">
+            <h2 class="section-title">Huyền Thoại & Kỷ Lục</h2>
+            <div class="horse-gallery">
+                
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">1. Chạy nhanh nhất thế giới</span>
+                        <h4>Winning Brew</h4>
+                        <p>Tại Pennsylvania năm 2008, cô ngựa này thiết lập kỷ lục Guinness với tốc độ 70,76 km/h trên quãng đường 400m.</p>
+                        <br><a href="WinningBrew.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">2. Chuỗi thắng liên tiếp dài nhất</span>
+                        <h4>Camarero</h4>
+                        <p>Chú ngựa từ Puerto Rico giữ kỷ lục 56 trận thắng liên tiếp. Cả sự nghiệp thắng 73/77 trận.</p>
+                        <br><a href="Camarero.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">3. Tiền thưởng cao nhất</span>
+                        <h4>Winx</h4>
+                        <p>Huyền thoại của Úc với số tiền thưởng tích lũy hơn 26,4 triệu USD và 33 trận thắng liên tiếp.</p>
+                        <br><a href="Winx.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">4. Kẻ thất bại vĩ đại</span>
+                        <h4>Quixall Crossett</h4>
+                        <p>Nổi tiếng vì không bao giờ thắng trong suốt 103 trận tham gia. Một biểu tượng của sự kiên trì.</p>
+                        <br><a href="Quixall.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">5. Tỉ lệ thắng 100% hoàn hảo</span>
+                        <h4>Frankel</h4>
+                        <p>Giải nghệ với thành tích 14-0. Được coi là "con ngựa hoàn hảo" nhất của thế kỷ 21.</p>
+                        <br><a href="Frankel.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">6. Giá trị chuyển nhượng cao nhất</span>
+                        <h4>Fusaichi Pegasus</h4>
+                        <p>Được bán với giá kỷ lục 70 triệu USD vào năm 2000 để làm ngựa giống sau khi thắng Kentucky Derby.</p>
+                        <br><a href="Fusaichi.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">7. Ngựa đua vĩ đại nhất</span>
+                        <h4>Secretariat</h4>
+                        <p>Thắng đối thủ với khoảng cách 31 thân ngựa tại Belmont Stakes 1973 - Kỷ lục không thể phá vỡ.</p>
+                        <br><a href="Secretariat.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">8. Nhỏ bé nhưng thắng lớn</span>
+                        <h4>Northern Dancer</h4>
+                        <p>Chỉ cao 1m57 nhưng đã thắng Kentucky Derby 1964 và trở thành ngựa giống ảnh hưởng nhất lịch sử.</p>
+                        <br><a href="Northern.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <div class="horse-item">
+                    <div class="horse-info">
+                        <span class="record-tag">9. Giành nhiều trận thắng nhất</span>
+                        <h4>Kingston</h4>
+                        <p>Một kỷ lục từ thế kỷ 19 với 89 chiến thắng trong tổng số 138 trận thi đấu.</p>
+                        <br><a href="Kingston.html" class="btn-detail">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="binh-chon" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Bình Chọn Chiến Mã</h2>
+            <div class="vote-form">
+    <p style="margin-bottom: 20px; font-weight: bold; font-size: 1.2rem;">Kỷ lục nào làm bạn ấn tượng nhất?</p>
+    <select id="horseSelect" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 20px;">
+        <option value="Winning Brew">Winning Brew-FASTEST</option>
+        <option value="Camarero">Camarero-UNBEATEN</option>
+        <option value="Winx">Winx-QUEEN</option>
+        <option value="Quixall Crossett">Quixall Crossett-BELIABLE</option>
+        <option value="Frankel">Frankel-PERFECT</option>
+        <option value="Fusaichi Pegasus">Fusaichi Pegasus-BILLION</option>
+        <option value="Secretariat">Secretariat-LEGEND</option>
+        <option value="Northern Dancer">Northern Dancer-DYNAMIC</option>
+        <option value="Kingston">Kingston-UNBEATEN</option>
+    </select>
+    <button id="voteBtn" class="btn-submit" onclick="submitVote()">Gửi bình chọn</button>
+<p id="votedMessage" style="color: #666; font-style: italic; margin-top: 10px; display: none;">Bạn đã thực hiện bình chọn cho cuộc thi này.</p>
+
+    <div id="voteResults" style="margin-top: 30px; display: none;">
+        <h4 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Kết quả bình chọn hiện tại:</h4>
+        <div id="resultsList"></div>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <section id="lien-he" class="section contact">
+        <div class="container">
+            <h2 class="section-title" style="color: #fff;">Liên Hệ</h2>
+            <p>Nếu bạn muốn hiểu thêm về những chú ngựa đua thì hãy liên hệ chúng tôi</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MUSUME🐴-THIẾT KẾ BỞI BÙI TẤN PHÁT-DƯƠNG NGỌC VŨ DUY-12C15</p>
+        <p>Email: 
+        <a href="mailto:buitanphat708@gmail.com">
+        buitanphat708@gmail.com
+        </a>
+        </p>
+        <p>
+        <a href="mailto:duylikeminecraft@gmail.com">
+        duylikeminecraft@gmail.com
+        </a>
+        </p>
+    </footer>
+<script>
+    function submitVote() {
+        // Kiểm tra xem đã bình chọn chưa
+        if (localStorage.getItem('hasVoted')) {
+            alert("Bạn đã bình chọn rồi!");
+            return;
+        }
+
+        const select = document.getElementById('horseSelect');
+        const selectedHorse = select.value;
+        
+        // 1. Lưu kết quả bình chọn
+        let votes = JSON.parse(localStorage.getItem('racingVotes')) || {};
+        votes[selectedHorse] = (votes[selectedHorse] || 0) + 1;
+        localStorage.setItem('racingVotes', JSON.stringify(votes));
+        
+        // 2. Đánh dấu người dùng này đã bình chọn
+        localStorage.setItem('hasVoted', 'true');
+        
+        // 3. Cập nhật giao diện ngay lập tức
+        checkVoteStatus();
+        displayResults();
+        
+        alert("Cảm ơn bạn! Bình chọn cho " + selectedHorse + " đã được ghi lại.");
+    }
+
+    function checkVoteStatus() {
+        if (localStorage.getItem('hasVoted')) {
+            const btn = document.getElementById('voteBtn');
+            const msg = document.getElementById('votedMessage');
+            const select = document.getElementById('horseSelect');
+
+            if(btn) {
+                btn.disabled = true;
+                btn.style.background = "#ccc";
+                btn.style.cursor = "not-allowed";
+                btn.innerText = "Đã ghi nhận bình chọn";
+            }
+            if(msg) msg.style.display = "block";
+            if(select) select.disabled = true; // Khóa luôn ô chọn
+        }
+    }
+
+    function displayResults() {
+        const votes = JSON.parse(localStorage.getItem('racingVotes'));
+        if (!votes) return;
+
+        const resultsArea = document.getElementById('voteResults');
+        const list = document.getElementById('resultsList');
+        resultsArea.style.display = 'block';
+        list.innerHTML = '';
+
+        const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
+
+        // Sắp xếp danh sách theo % từ cao xuống thấp
+        const sortedEntries = Object.entries(votes).sort((a, b) => b[1] - a[1]);
+
+        for (const [horse, count] of sortedEntries) {
+            const percentage = ((count / totalVotes) * 100).toFixed(1);
+            
+            list.innerHTML += `
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
+                        <span style="font-weight: 500;">${horse}</span>
+                        <span style="color: var(--primary-color); font-weight: bold;">${percentage}%</span>
+                    </div>
+                    <div style="background: #eee; height: 10px; border-radius: 5px; overflow: hidden;">
+                        <div style="background: var(--primary-color); width: ${percentage}%; height: 100%; transition: width 1s ease-out;"></div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Chạy kiểm tra khi tải trang
+    window.onload = function() {
+        checkVoteStatus();
+        displayResults();
+    };
+</script>
+<script>
+    document.addEventListener('mousemove', function(e) {
+        // Tạo một phần tử span mới cho emoji
+        const horseshoe = document.createElement('span');
+        horseshoe.innerHTML = '🐴'; // Bạn có thể dùng 🐴 hoặc 🧲 (giống móng ngựa)
+        horseshoe.classList.add('horseshoe-trail');
+
+        // Đặt vị trí xuất hiện tại con trỏ chuột
+        horseshoe.style.left = e.clientX + 'px';
+        horseshoe.style.top = e.clientY + 'px';
+
+        // Tạo các biến ngẫu nhiên để móng ngựa bay theo các hướng khác nhau
+        const moveX = (Math.random() - 0.5) * 100 + 'px';
+        const moveY = (Math.random() - 0.5) * 100 + 'px';
+        const rotate = (Math.random() * 360) + 'deg';
+
+        horseshoe.style.setProperty('--x', moveX);
+        horseshoe.style.setProperty('--y', moveY);
+        horseshoe.style.setProperty('--r', rotate);
+
+        document.body.appendChild(horseshoe);
+
+        // Xóa phần tử sau khi hiệu ứng kết thúc để tránh nặng trang
+        setTimeout(() => {
+            horseshoe.remove();
+        }, 1000);
+    });
+</script>
+</body>
+</html>

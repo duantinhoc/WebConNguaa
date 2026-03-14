@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nữ Hoàng Tiền Thưởng - Winx</title>
+    <style>
+        :root {
+            --royal-blue: #002366;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #001a33, #003366, #004080);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            max-width: 1200px;
+            width: 95%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Chữ nền "QUEEN" */
+        .profile-container::before {
+            content: "QUEEN";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 130px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.04);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Phần hình ảnh bên trái - Thêm padding để tạo khung */
+        .profile-image-section {
+            flex: 1.2;
+            min-width: 45%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px; /* Khoảng cách từ ảnh đến viền container */
+        }
+
+        /* Thêm bo tròn cho chính tấm ảnh */
+        .profile-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px; /* Độ bo tròn của khung ảnh */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Đổ bóng nhẹ cho khung ảnh */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Viền mỏng quanh ảnh */
+        }
+
+        .profile-content {
+            flex: 1.5;
+            padding: 60px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--gold);
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .alias {
+            font-style: italic;
+            color: #add8e6;
+            margin-bottom: 35px;
+            display: block;
+            font-size: 1.15rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 35, 102, 0.4);
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .record-box {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px dashed var(--gold);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .record-box h3 {
+            margin-top: 0;
+            color: var(--gold);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-box p {
+            font-size: 1.15rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #f0f0f0;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            align-self: flex-start;
+            margin-top: 35px;
+            padding: 14px 35px;
+            background: var(--gold);
+            color: #001a33;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--gold);
+            background: #fff;
+        }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; max-width: 600px; }
+            .profile-image-section { height: 400px; padding: 20px; }
+            .profile-content { padding: 40px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-image-section">
+            <img src="3.webp" alt="Winx - The Prize Money Queen">
+        </div>
+
+        <div class="profile-content">
+            <h1>Winx</h1>
+            <div class="sub-title">The highest-earning racing horse in history</div>
+            
+            <span class="alias">"Nữ hoàng bất bại của xứ sở Kangaroo"</span>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Tổng tiền thưởng</label>
+                    <span>> 26,4 Triệu USD</span>
+                </div>
+                <div class="stat-item">
+                    <label>Chuỗi thắng</label>
+                    <span>33 Trận liên tiếp</span>
+                </div>
+                <div class="stat-item">
+                    <label>Quốc gia</label>
+                    <span>Australia (Úc)</span>
+                </div>
+                <div class="stat-item">
+                    <label>Số trận thắng G1</label>
+                    <span>25 Trận (Kỷ lục thế giới)</span>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Winx là hiện tượng vô tiền khoáng hậu của làng đua ngựa hiện đại. Với khả năng bứt tốc thần sầu ở giai đoạn cuối, cô đã làm nức lòng hàng triệu người hâm mộ trên khắp thế giới.</p>
+            </div>
+
+            <div class="record-box">
+                <h3>🏆 Đỉnh cao của vinh quang</h3>
+                <p><strong>Thành tích:</strong> Hơn 26,4 triệu USD tiền thưởng tích lũy.</p>
+                <p>Không chỉ là ngựa đua kiếm tiền giỏi nhất, Winx còn sở hữu chuỗi 33 trận thắng liên tiếp, trong đó có 4 lần vô địch giải Cox Plate danh giá.</p>
+            </div>
+
+            <a href="index.html" class="btn-back">Về Trang CHỦ</a>
+        </div>
+    </div>
+
+</body>
+</html>

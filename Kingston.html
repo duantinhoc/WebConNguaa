@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kỷ Lục Chiến Thắng - Kingston</title>
+    <style>
+        :root {
+            --classic-brown: #5d4037;
+            --bronze: #cd7f32;
+            --cream: #f5f5dc;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2b1b17, #5d4037, #8d6e63);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            max-width: 1200px;
+            width: 95%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Chữ nền "VINTAGE" */
+        .profile-container::before {
+            content: "UNBEATEN";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 100px;
+            font-weight: 900;
+            color: rgba(205, 127, 50, 0.07);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .profile-image-section {
+            flex: 1.2;
+            min-width: 45%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .profile-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 2px solid var(--bronze);
+            filter: sepia(30%); /* Tạo hiệu ứng cổ điển */
+        }
+
+        .profile-content {
+            flex: 1.5;
+            padding: 60px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--bronze);
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            color: var(--cream);
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--bronze);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .alias {
+            font-style: italic;
+            color: #bcaaa4;
+            margin-bottom: 35px;
+            display: block;
+            font-size: 1.15rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid var(--bronze);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(205, 127, 50, 0.15);
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--cream);
+        }
+
+        .record-box {
+            background: rgba(205, 127, 50, 0.1);
+            border: 1px solid var(--bronze);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .record-box h3 {
+            margin-top: 0;
+            color: var(--bronze);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-box p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            line-height: 1.5;
+            color: #d7ccc8;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #efeff0;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            align-self: flex-start;
+            margin-top: 35px;
+            padding: 14px 35px;
+            background: var(--bronze);
+            color: #2b1b17;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            text-transform: uppercase;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(205, 127, 50, 0.4);
+            background: var(--cream);
+            color: var(--classic-brown);
+        }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; max-width: 600px; }
+            .profile-image-section { height: 400px; padding: 20px; }
+            .profile-content { padding: 40px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-image-section">
+            <img src="9.1.jpg" alt="Kingston - The King of Wins">
+        </div>
+
+        <div class="profile-content">
+            <h1>Kingston</h1>
+            <div class="sub-title">The Most Winning Horse in History</div>
+            
+            <span class="alias">"Cỗ máy chiến thắng bất tận của thế kỷ 19"</span>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Tổng trận thắng</label>
+                    <span>89 Chiến thắng</span>
+                </div>
+                <div class="stat-item">
+                    <label>Số lần xuất phát</label>
+                    <span>138 Trận</span>
+                </div>
+                <div class="stat-item">
+                    <label>Tỷ lệ trong Top 3</label>
+                    <span>93% (129/138)</span>
+                </div>
+                <div class="stat-item">
+                    <label>Thời kỳ</label>
+                    <span>1886 - 1894</span>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Kingston giữ kỷ lục về số trận thắng nhiều nhất đối với bất kỳ con ngựa thuần chủng (Thoroughbred) nào trong lịch sử. Trong suốt 10 năm thi đấu, ông hiếm khi rời khỏi bục nhận giải, trở thành biểu tượng của sự bền bỉ và đẳng cấp.</p>
+            </div>
+
+            <div class="record-box">
+                <h3>📜 Một kỷ lục không thể xô đổ</h3>
+                <p><strong>Thành tích:</strong> 89 trận thắng là con số mà các ngựa đua hiện đại ngày nay khó lòng chạm tới.</p>
+                <p>Sau khi giải nghệ, Kingston tiếp tục gây kinh ngạc khi trở thành ngựa giống hàng đầu tại Mỹ, chứng minh rằng bản năng chiến thắng của ông nằm ngay trong dòng máu.</p>
+            </div>
+
+            <a href="index.html" class="btn-back">Về Trang CHỦ</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huyền Thoại Bất Bại - Camarero</title>
+    <style>
+        :root {
+            --victory-red: #8b0000;
+            --silver: #c0c0c0;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0a0a, #2c1414, #3d1e1e);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            max-width: 1200px;
+            width: 95%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Chữ nền "UNDEFEATED" */
+        .profile-container::before {
+            content: "UNBEATEN";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 110px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Khung chứa hình ảnh bo tròn */
+        .profile-image-section {
+            flex: 1.2;
+            min-width: 45%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px; /* Tạo khoảng trống để thấy khung bo tròn */
+        }
+
+        .profile-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px; /* Bo tròn góc hình ảnh */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            filter: grayscale(20%);
+        }
+
+        .profile-content {
+            flex: 1.5;
+            padding: 60px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--silver);
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 0;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.7);
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .alias {
+            font-style: italic;
+            color: #b0b0b0;
+            margin-bottom: 35px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid var(--victory-red);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.02);
+            background: rgba(139, 0, 0, 0.2);
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .record-box {
+            background: rgba(139, 0, 0, 0.15);
+            border: 2px dashed var(--victory-red);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .record-box h3 {
+            margin-top: 0;
+            color: #ff4d4d;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-box p {
+            font-size: 1.15rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            align-self: flex-start;
+            margin-top: 35px;
+            padding: 14px 35px;
+            background: var(--victory-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            text-transform: uppercase;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--victory-red);
+            background: #ff1a1a;
+        }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; max-width: 600px; }
+            .profile-image-section { height: 400px; padding: 20px; }
+            .profile-content { padding: 40px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-image-section">
+            <img src="2.jfif" alt="Camarero - The Undefeated Legend">
+        </div>
+
+        <div class="profile-content">
+            <h1>Camarero</h1>
+            <div class="sub-title">The longest winning streak in racing history</div>
+            
+            <span class="alias">"Tượng đài bất khả chiến bại của Puerto Rico"</span>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Tổng số trận đấu</label>
+                    <span>77 Trận</span>
+                </div>
+                <div class="stat-item">
+                    <label>Tỷ lệ thắng</label>
+                    <span>94.8% (73 trận thắng)</span>
+                </div>
+                <div class="stat-item">
+                    <label>Quê quán</label>
+                    <span>Puerto Rico</span>
+                </div>
+                <div class="stat-item">
+                    <label>Danh hiệu</label>
+                    <span>Kỷ lục Guinness thế giới</span>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Camarero không chỉ là một chú ngựa đua, mà là một biểu tượng quốc gia tại Puerto Rico. Trong suốt sự nghiệp lẫy lừng của mình, chú đã thống trị các đường đua với một sự bền bỉ không tưởng.</p>
+            </div>
+
+            <div class="record-box">
+                <h3>🏆 Chuỗi thắng vô tiền khoáng hậu</h3>
+                <p><strong>Kỷ lục:</strong> 56 trận thắng liên tiếp</p>
+                <p>Từ năm 1953 đến 1955, Camarero đã thiết lập một cột mốc mà cho đến nay, chưa có chú ngựa thuần chủng nào có thể chạm tới trên thế giới.</p>
+            </div>
+
+            <a href="index.html" class="btn-back">Về Trang Chủ</a>
+        </div>
+    </div>
+
+</body>
+</html>

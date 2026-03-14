@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tia Chớp Đường Đua - Winning Brew</title>
+    <style>
+        :root {
+            --speed-red: #e63946;
+            --dark-bolt: #1d3557;
+            --accent-yellow: #ffb703;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0000, #4d0000, #800000);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            max-width: 1200px;
+            width: 95%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Chữ nền "SPEED" */
+        .profile-container::before {
+            content: "FASTEST";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 130px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.04);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .profile-image-section {
+            flex: 1.2;
+            min-width: 45%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .profile-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-content {
+            flex: 1.5;
+            padding: 60px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--accent-yellow);
+            font-size: 3.5rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 183, 3, 0.4);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .alias {
+            font-style: italic;
+            color: #ffcccc;
+            margin-bottom: 35px;
+            display: block;
+            font-size: 1.15rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 6px solid var(--speed-red);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(128, 0, 0, 0.4);
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--accent-yellow);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .record-box {
+            background: rgba(230, 57, 70, 0.1);
+            border: 2px dashed var(--speed-red);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .record-box h3 {
+            margin-top: 0;
+            color: var(--accent-yellow);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-box p {
+            font-size: 1.15rem;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .description {
+            line-height: 1.8;
+            color: #f0f0f0;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            align-self: flex-start;
+            margin-top: 35px;
+            padding: 14px 35px;
+            background: var(--speed-red);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--speed-red);
+            background: #fff;
+            color: var(--speed-red);
+        }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; max-width: 600px; }
+            .profile-image-section { height: 400px; padding: 20px; }
+            .profile-content { padding: 40px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-image-section">
+            <img src="1.jpg" alt="Winning Brew - The Fastest Horse">
+        </div>
+
+        <div class="profile-content">
+            <h1>Winning Brew</h1>
+            <div class="sub-title">The world's fastest racing horse</div>
+            
+            <span class="alias">"Cơn lốc đỏ trên đường đua Pennsylvania"</span>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label>Tốc độ tối đa</label>
+                    <span>70,76 km/h</span>
+                </div>
+                <div class="stat-item">
+                    <label>Quãng đường lập kỷ lục</label>
+                    <span>~402 mét (2 furlongs)</span>
+                </div>
+                <div class="stat-item">
+                    <label>Năm xác lập</label>
+                    <span>2008</span>
+                </div>
+                <div class="stat-item">
+                    <label>Chứng nhận</label>
+                    <span>Guinness World Record</span>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Winning Brew là một cô ngựa cái giống Thoroughbred, nổi danh toàn cầu khi phá bỏ mọi giới hạn vật lý của loài ngựa. Sức mạnh bùng nổ của cô trong những mét đầu tiên khiến mọi đối thủ chỉ có thể nhìn thấy bụi đường.</p>
+            </div>
+
+            <div class="record-box">
+                <h3>⚡ Kỷ lục Guinness Thế Giới</h3>
+                <p><strong>Vận tốc:</strong> 43.97 mph (tương đương 70.76 km/h).</p>
+                <p>Tại trường đua Penn National, Winning Brew đã hoàn thành quãng đường 1/4 dặm chỉ trong vỏn vẹn 20.57 giây. Cho đến nay, chưa có chú ngựa nào vượt qua được con số chính thức này.</p>
+            </div>
+
+            <a href="index.html" class="btn-back">Về Trang Chủ</a>
+        </div>
+    </div>
+
+</body>
+</html>
