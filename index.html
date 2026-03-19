@@ -479,86 +479,120 @@ a, button, select, .card {
         </a>
         </p>
     </footer>
-<script>
-    function submitVote() {
-        // Kiểm tra xem đã bình chọn chưa
-        if (localStorage.getItem('hasVoted')) {
-            alert("Bạn đã bình chọn rồi!");
-            return;
-        }
-
-        const select = document.getElementById('horseSelect');
-        const selectedHorse = select.value;
-        
-        // 1. Lưu kết quả bình chọn
-        let votes = JSON.parse(localStorage.getItem('racingVotes')) || {};
-        votes[selectedHorse] = (votes[selectedHorse] || 0) + 1;
-        localStorage.setItem('racingVotes', JSON.stringify(votes));
-        
-        // 2. Đánh dấu người dùng này đã bình chọn
-        localStorage.setItem('hasVoted', 'true');
-        
-        // 3. Cập nhật giao diện ngay lập tức
-        checkVoteStatus();
-        displayResults();
-        
-        alert("Cảm ơn bạn! Bình chọn cho " + selectedHorse + " đã được ghi lại.");
-    }
-
-    function checkVoteStatus() {
-        if (localStorage.getItem('hasVoted')) {
-            const btn = document.getElementById('voteBtn');
-            const msg = document.getElementById('votedMessage');
-            const select = document.getElementById('horseSelect');
-
-            if(btn) {
-                btn.disabled = true;
-                btn.style.background = "#ccc";
-                btn.style.cursor = "not-allowed";
-                btn.innerText = "Đã ghi nhận bình chọn";
+    <script type="module">
+        // 1. Chỉ import một lần duy nhất
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    
+        // 2. Cấu hình Firebase (Dùng mã đầy đủ của bạn)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBO-5SU4TeYS3hYlYt3yy9k1G5TcuTrxrc",
+            authDomain: "duantinhoc-4000f.firebaseapp.com",
+            databaseURL: "https://duantinhoc-4000f-default-rtdb.firebaseio.com",
+            projectId: "duantinhoc-4000f",
+            storageBucket: "duantinhoc-4000f.firebasestorage.app",
+            messagingSenderId: "48993356555",
+            appId: "1:48993356555:web:8896180dd12a7ca4cc700e",
+            measurementId: "G-4BJQT2QNHL"
+        };
+    
+        // 3. Khởi tạo một lần duy nhất
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+    
+        console.log("Firebase đã sẵn sàng!");
+    
+        // 4. Hàm gửi bình chọn (Gán vào window để HTML gọi được)
+        window.submitVote = function() {
+            if (localStorage.getItem('hasVoted')) {
+                alert("Bạn đã bình chọn rồi!");
+                return;
             }
-            if(msg) msg.style.display = "block";
-            if(select) select.disabled = true; // Khóa luôn ô chọn
-        }
-    }
-
-    function displayResults() {
-        const votes = JSON.parse(localStorage.getItem('racingVotes'));
-        if (!votes) return;
-
-        const resultsArea = document.getElementById('voteResults');
-        const list = document.getElementById('resultsList');
-        resultsArea.style.display = 'block';
-        list.innerHTML = '';
-
-        const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
-
-        // Sắp xếp danh sách theo % từ cao xuống thấp
-        const sortedEntries = Object.entries(votes).sort((a, b) => b[1] - a[1]);
-
-        for (const [horse, count] of sortedEntries) {
-            const percentage = ((count / totalVotes) * 100).toFixed(1);
+    
+            const select = document.getElementById('horseSelect');
+            const selectedHorse = select.value;
+            if (!selectedHorse) return;
+    
+            const horseRef = ref(db, 'votes/' + selectedHorse);
+    
+            runTransaction(horseRef, (currentVotes) => {
+                return (currentVotes || 0) + 1;
+            }).then(() => {
+                localStorage.setItem('hasVoted', 'true');
+                checkVoteStatus();
+                alert("Bình chọn thành công cho " + selectedHorse);
+            }).catch((error) => {
+                console.error("Lỗi:", error);
+            });
+        };
+    
+        // 5. Lắng nghe dữ liệu Realtime
+        onValue(ref(db, 'votes'), (snapshot) => {
+            const votes = snapshot.val();
+            const resultsArea = document.getElementById('voteResults');
+            const list = document.getElementById('resultsList');
             
-            list.innerHTML += `
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
-                        <span style="font-weight: 500;">${horse}</span>
-                        <span style="color: var(--primary-color); font-weight: bold;">${percentage}%</span>
-                    </div>
-                    <div style="background: #eee; height: 10px; border-radius: 5px; overflow: hidden;">
-                        <div style="background: var(--primary-color); width: ${percentage}%; height: 100%; transition: width 1s ease-out;"></div>
-                    </div>
-                </div>
-            `;
+            if (!votes) return;
+            
+            resultsArea.style.display = 'block';
+            list.innerHTML = '';
+    
+            const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
+            const sortedEntries = Object.entries(votes).sort((a, b) => b[1] - a[1]);
+    
+            for (const [horse, count] of sortedEntries) {
+                const percentage = ((count / totalVotes) * 100).toFixed(1);
+                list.innerHTML += `
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
+                            <span style="font-weight: 500;">${horse}</span>
+                            <span style="color: #c9a050; font-weight: bold;">${percentage}% (${count} phiếu)</span>
+                        </div>
+                        <div style="background: #eee; height: 10px; border-radius: 5px; overflow: hidden;">
+                            <div style="background: #c9a050; width: ${percentage}%; height: 100%; transition: width 1s ease-out;"></div>
+                        </div>
+                    </div>`;
+            }
+        });
+    
+        // 6. Kiểm tra trạng thái bình chọn
+        function checkVoteStatus() {
+            if (localStorage.getItem('hasVoted')) {
+                const btn = document.getElementById('voteBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.style.background = "#ccc";
+                    btn.innerText = "Bạn đã bình chọn rồi";
+                }
+                const select = document.getElementById('horseSelect');
+                if (select) select.disabled = true;
+                
+                const msg = document.getElementById('votedMessage');
+                if (msg) msg.style.display = "block";
+            }
         }
-    }
-
-    // Chạy kiểm tra khi tải trang
-    window.onload = function() {
+    
+        // Chạy kiểm tra ngay khi load module
         checkVoteStatus();
-        displayResults();
-    };
-</script>
+    </script>
+      
+      <script>
+          document.addEventListener('mousemove', function(e) {
+              const horseshoe = document.createElement('span');
+              horseshoe.innerHTML = '🐴';
+              horseshoe.classList.add('horseshoe-trail');
+              horseshoe.style.left = e.clientX + 'px';
+              horseshoe.style.top = e.clientY + 'px';
+              const moveX = (Math.random() - 0.5) * 100 + 'px';
+              const moveY = (Math.random() - 0.5) * 100 + 'px';
+              const rotate = (Math.random() * 360) + 'deg';
+              horseshoe.style.setProperty('--x', moveX);
+              horseshoe.style.setProperty('--y', moveY);
+              horseshoe.style.setProperty('--r', rotate);
+              document.body.appendChild(horseshoe);
+              setTimeout(() => { horseshoe.remove(); }, 1000);
+          });
+      </script>
 <script>
     document.addEventListener('mousemove', function(e) {
         // Tạo một phần tử span mới cho emoji
